@@ -20,11 +20,7 @@
 // 7. Output the ID of the selected event on the EventDetailPage
 // BONUS: Add another (nested) layout route that adds the <EventNavigation> component above all /events... page components
 
-import {
-  RouterProvider,
-  createBrowserRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import EventDetailPage from "./pages/EventDetail";
 import EventsPage from "./pages/Events";
 import HomePage from "./pages/Home";
@@ -37,7 +33,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { path: "", element: <HomePage /> },
+      { index: true, element: <HomePage /> },
       { path: "events", element: <EventsPage /> },
       { path: "events/:eventId", element: <EventDetailPage /> },
       { path: "events/new", element: <NewEventPage /> },
@@ -73,5 +69,10 @@ export default App;
 // CAME from Root.js
 // STEP 5:
 // 5.1 to father route add "element: <RootLayout>" with "children: []"
-// 5.2 Move all routes into this root route
+// 5.2 Move all routes into this root route.
+// 5.3 Change path from absolute to relative paths (deleting slash), so that they are relative to the path defined in the parent route in the route definitions.
+// 5.4 Turns first children route for the <HomePage /> into "index" route.
+//
+// Now GO TO MainNavigation.js --->>> to add a working links
+
 // 283 ROUTING PRACTICE
