@@ -27,6 +27,7 @@ import HomePage from "./pages/Home";
 import NewEventPage from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
 import RootLayout from "./pages/Root";
+import EventsRootLayout from "./pages/EventsRoots";
 
 const router = createBrowserRouter([
   {
@@ -34,11 +35,16 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      {path:"events", element:},
-      { path: "events", element: <EventsPage /> },
-      { path: "events/:eventId", element: <EventDetailPage /> },
-      { path: "events/new", element: <NewEventPage /> },
-      { path: "events/:eventId/edit", element: <EditEventPage /> },
+      {
+        path: "events",
+        element: <EventsRootLayout />,
+        children: [
+          { index: true, element: <EventsPage /> },
+          { path: ":eventId", element: <EventDetailPage /> },
+          { path: "new", element: <NewEventPage /> },
+          { path: ":eventId/edit", element: <EditEventPage /> },
+        ],
+      },
     ],
   },
 ]);
@@ -80,7 +86,11 @@ export default App;
 // STEP 9:
 // 9.1 Add a new route definition where the path is events (not /events), I want to have relative to this parent route path. The add "element" is a new page, which we have yet to add, which is the EventsRoot.js
 // 9.2 Create EventRoot.js
-// 
+//
 // CAME FROM EventsRoot.js
-
+// 9.3 Add to new route "element: <EventsRootLayout>".
+// 9.4 And add this "children" property and move all routes below.
+// 9.5 After this removes all "events/" from "path".
+// Now all URL path is combination of "/" + "events" + ...
+// 9.6 Path of first children turned into a index route
 // 283 ROUTING PRACTICE
