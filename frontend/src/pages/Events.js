@@ -32,5 +32,6 @@ export default EventsPage;
 
 // STEP 7:
 // 7.1 Add some DUMMY EVENTS array
-// 7.2 In JSX I want to display this list of events. Every event should then be turned into a list item
+// 7.2 In JSX I want to display this list of events. Every event should then be turned into a list item.
+// GO TO EventDetail.js --->>>
 // 283 ROUTING PRACTICE
