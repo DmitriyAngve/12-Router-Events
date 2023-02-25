@@ -34,6 +34,7 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <HomePage /> },
+      {path:"events", element:},
       { path: "events", element: <EventsPage /> },
       { path: "events/:eventId", element: <EventDetailPage /> },
       { path: "events/new", element: <NewEventPage /> },
@@ -74,5 +75,12 @@ export default App;
 // 5.4 Turns first children route for the <HomePage /> into "index" route.
 //
 // Now GO TO MainNavigation.js --->>> to add a working links
+
+// CAME FROM EventDetail.js
+// STEP 9:
+// 9.1 Add a new route definition where the path is events (not /events), I want to have relative to this parent route path. The add "element" is a new page, which we have yet to add, which is the EventsRoot.js
+// 9.2 Create EventRoot.js
+// 
+// CAME FROM EventsRoot.js
 
 // 283 ROUTING PRACTICE
