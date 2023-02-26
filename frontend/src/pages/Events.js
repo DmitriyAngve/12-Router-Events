@@ -40,6 +40,16 @@ function EventsPage() {
 
 export default EventsPage;
 
+export async function loader() {
+  const response = await fetch("http://localhost:8080/events");
+
+  if (!response.ok) {
+  } else {
+    const resData = await response.json();
+    return resData.events;
+  }
+}
+
 // 283 ROUTING PRACTICE
 // STEP 7:
 // 7.1 Add some DUMMY EVENTS array
@@ -70,3 +80,14 @@ export default EventsPage;
 // 4.1 Use the "useLoaderData" in the "EventsPage" component and bring back the "events" prop on which I pass my "events" queue EventsList.js
 // 4.2 Rid out "useLoaderData" from EvetsList.js and bring back this object destructure
 // 286 MORE LOADER() DATA USAGE
+
+//
+
+// 287. WHERE SHOULD LOADER() CODE BE STORED?
+// CAME FROM App.js
+// STEP 1:
+// 1.1 Export a function which we could name loader.
+// 1.2 Put your code, your loader code into that function.
+// 1.3 Turn into async function
+// GO BACK INTO App.js
+// 287. WHERE SHOULD LOADER() CODE BE STORED?

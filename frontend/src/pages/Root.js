@@ -1,4 +1,5 @@
-import { Outlet, useLoaderData } from "react-router-dom";
+// import { Outlet, useLoaderData } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import MainNavigation from "../components/MainNavigation";
 
 function RootLayout() {
@@ -37,3 +38,5 @@ export default RootLayout;
 // Instead, you can access loaded data with help of "useLoadedData" in any component on the same level or lower level than the component where you added the loader, so the route on which you added the loader.
 // GO TO Events.js --->>>
 // 286 MORE LOADER() DATA USAGE
+
+//

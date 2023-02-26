@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import EventDetailPage from "./pages/EventDetail";
-import EventsPage from "./pages/Events";
+import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import HomePage from "./pages/Home";
 import NewEventPage from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
@@ -20,15 +20,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <EventsPage />,
-            loader: async () => {
-              const response = await fetch("http://localhost:8080/events");
-
-              if (!response.ok) {
-              } else {
-                const resData = await response.json();
-                return resData.events;
-              }
-            },
+            loader: eventsLoader,
           },
           { path: ":eventId", element: <EventDetailPage /> },
           { path: "new", element: <NewEventPage /> },
@@ -108,3 +100,18 @@ export default App;
 // For that we have to go to the component where we want to use it ---> GO TO Events.js
 //
 // 285. USIMG DATA FROM A LOADER IN THE ROUTE COMPONENT
+
+//
+
+// 287. WHERE SHOULD LOADER() CODE BE STORED?
+//
+// You can move "loader()" code into component file.
+// Recommendation - is that you do actually put that "loader()" code into your component file where you need it.
+// Let's try that with "EventsPage" component file.
+// GO TO Events.js --->>>
+//
+// CAME FROM Events.js
+// STEP 2:
+// 2.1 Import "loader" as "eventsLoader" (name is up to you).
+// 2.2 "loader: eventsLoader" loader points to imported function
+// 287. WHERE SHOULD LOADER() CODE BE STORED?
