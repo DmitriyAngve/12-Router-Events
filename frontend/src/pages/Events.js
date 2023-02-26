@@ -33,7 +33,9 @@ import { useLoaderData } from "react-router-dom";
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
-  return <EventsList events={fetchedEvents} />;
+  const events = useLoaderData();
+
+  return <EventsList events={events} />;
 }
 
 export default EventsPage;
@@ -49,5 +51,22 @@ export default EventsPage;
 // STEP 1:
 // 1.1 Rid all that state management and "useEffect" and get rid <div> which shows my loading and error state. Rid "ifcheck".
 // 1.2 And now to get access to the data returned by the "loader" function for this page, we can import /// "import { useLoaderData } from "react-router-dom";". This is a special hook which we can execute to get access to the closest loader data
-// 1.3 Call "useLoaderData()"
+// 1.3 Call "const events = useLoaderData()" I named t "events" since we know that it will be a list of events in case of this component here ("<EventsPage>")
+// And "events" will really be that data returned by that "loader" from App.js. Loader function will return a Promise (because I use an "asyncawait"). Any data will be wrapped by a promise.
+// But r-r-d will actually check if a promise is returned and automatically get the resolved data from that promise for you.
+// This "events" now it's this "events" object this array of events, which we can pass a value tp this events prop on events list.
 // 285. USIMG DATA FROM A LOADER IN THE ROUTE COMPONENT
+
+// 286 MORE LOADER() DATA USAGE
+//
+// STEP 1:
+// Let's see where else we could use this "useLoaderData" hook.
+// We can use "useLoaderData" in this "EventsPage()", which is rendered by the route on which we added the loader, well we could also use it directly inside the "EventList" component
+// 1.1 Instead of using it (useLoaderData) we could go to this "EventsList" component and use this hook there.
+// GO TO EventsList.js --->>>
+
+// CAME FROM Root.js !!!
+// STEP 4:
+// 4.1 Use the "useLoaderData" in the "EventsPage" component and bring back the "events" prop on which I pass my "events" queue EventsList.js
+// 4.2 Rid out "useLoaderData" from EvetsList.js and bring back this object destructure
+// 286 MORE LOADER() DATA USAGE
