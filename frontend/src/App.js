@@ -17,7 +17,19 @@ const router = createBrowserRouter([
         path: "events",
         element: <EventsRootLayout />,
         children: [
-          { index: true, element: <EventsPage /> },
+          {
+            index: true,
+            element: <EventsPage />,
+            loader: async () => {
+              const response = await fetch("http://localhost:8080/events");
+
+              if (!response.ok) {
+              } else {
+                const resData = await response.json();
+                return resData.events;
+              }
+            },
+          },
           { path: ":eventId", element: <EventDetailPage /> },
           { path: "new", element: <NewEventPage /> },
           { path: ":eventId/edit", element: <EditEventPage /> },
@@ -72,3 +84,27 @@ export default App;
 // Now all URL path is combination of "/" + "events" + ...
 // 9.6 Path of first children turned into a index route
 // 283 ROUTING PRACTICE
+
+// 284 FATA FETCHING WITH LOADER()
+//
+// STEP 1:
+// In r-r-d version < 6 You don't have to write all code (in Events.js) for fetching data from API. R-r-d helps you with all of that by giving you an extra property which you can add to your route definitions.
+// 1.1 Look at route with <EventsPage />, we can add an extra property to that route definition of that page => "loader: () => {}" property.
+// "loader: () => {}" is a property that wants a function as a value, a regular function or an error function that does not matter. This function executed by a r-r-d whanever you are about to visit this route => in other words: just before this JSX code (<EventsPage />) gets rendered, "loader: () => {}" function will be triggered and executed by a r-r-d.
+// GO TO Events.js and take code where we fetch the data and where we evaluate the response, cut that and move it into this "loader" function.
+// 1.2 Add "async" keyword.
+// 1.3 Remove any state value, don't need here
+// We wanna get that data to that <EventsPage /> component, because that's where we need the data.
+// When you define such a "loader" function, r-r-d will automatically take any value you return in that function, for example, the "resData" data and will make that data available "return resData;" in that page that's being rendered here (in <EventsPage />) as well as any other components where you need it.
+// 1.4 To be precise I wanna return "resData.events", because my "resData" object is actually an object that will have an events proprety which holds the actual array of events. That's simply how the backend API return the response for this request. We must access ".events" to get that array of dummy events from the backend.
+// With that, thus "resData" is made available to the "<EventsPage />" and any other components that need the data.
+// 284 FATA FETCHING WITH LOADER()
+
+//
+
+// 285. USIMG DATA FROM A LOADER IN THE ROUTE COMPONENT
+//
+// How do we now get access to that data returned by our loader?
+// For that we have to go to the component where we want to use it ---> GO TO Events.js
+//
+// 285. USIMG DATA FROM A LOADER IN THE ROUTE COMPONENT
