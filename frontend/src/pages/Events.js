@@ -34,6 +34,11 @@ import EventsList from "../components/EventsList";
 
 function EventsPage() {
   const data = useLoaderData();
+
+  if (data.isError) {
+    return <p>{data.message}</p>;
+  }
+
   const events = data.events;
 
   return <EventsList events={events} />;
@@ -143,5 +148,6 @@ export async function loader() {
 // For example here when we see that the response is not okay, if it has a 400ish or 500ish status code, what we can do in that case is we can return a different response, or just return an object (doesn't have to be a response). where we could add "isError" key and a message.
 // 1.1 Add "return { isError: true, message: "Could not fetch events." };"
 // So now we return this data package instead of the response returnde by our API request.
-// 1.2 In component code we could now simply check
+// 1.2 In component code we could now simply check "if(data.isError)" if "isError" property exist we could return a paragraph where we output "data.message" /// "return <p>{data.message}</p>;"
+// If I now deliberately break this code by sending the request to a path that doesn't exist
 // 292. ERROR HANDLING WITH CUSTOMS ERRORS
