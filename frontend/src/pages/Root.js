@@ -1,14 +1,20 @@
 // import { Outlet, useLoaderData } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import MainNavigation from "../components/MainNavigation";
 
 function RootLayout() {
   // const events = useLoaderData();
   // console.log(events);
+
+  const navigation = useNavigation();
+
+  // navigation.state === "submitting"
+
   return (
     <>
       <MainNavigation />
       <main>
+        {navigation.state === "loading" && <p>Loading...</p>}
         <Outlet />
       </main>
     </>
@@ -40,3 +46,16 @@ export default RootLayout;
 // 286 MORE LOADER() DATA USAGE
 
 //
+
+// 289. REFLECTING THE CURRENT NAVIGATION STATE IN THE UI
+//
+// STEP 1:
+// React Router gives us a special hook, which we can use to check the current route transitions state. So, to find out if a transition has been initiated and we're currently still waiting for data to arrive, or if we're done.
+// 1.1 import "useNavigation" hook, which is a hook provided by r-r-d, that lets us find out whether we're currently in an active transition, if we're lading data, or if we have no active transition going on.
+// 1.2 we get a navigation object when we call "useNavigation" and that Navigation object has a couple of properties, but "state" property is the most important one.
+// This is simply a string which is either idle, loading, or submitting depending on whether we don't have any active route transition, if we're having an active transition and we're loading data, or if we're submitting data
+// 1.3 With that, we could add a Loading text here /// "<p>Loading...</p>" /// which is only shown if "navigation.state==="loading""
+// "{navigation.state === "loading" && <p>Loading...</p>}" With that added, if we click "Home" and back "Events", you see that "Loading..." text, which signals to the user that we are loading data (gives the users some feedback that something is happening)
+// 1.4 Comment this string, because in later I will see the better solution
+// 1.5 Remove "setTimeout" from route/events.js file
+// 289. REFLECTING THE CURRENT NAVIGATION STATE IN THE UI

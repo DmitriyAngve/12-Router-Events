@@ -33,7 +33,8 @@ import { useLoaderData } from "react-router-dom";
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
-  const events = useLoaderData();
+  const data = useLoaderData();
+  const events = data.events;
 
   return <EventsList events={events} />;
 }
@@ -44,9 +45,16 @@ export async function loader() {
   const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
+    return { isError: true, message: "Could not fetch events." };
   } else {
-    const resData = await response.json();
-    return resData.events;
+    // const resData = await response.json();
+    // // return resData.events;
+    // // 290
+    // // const res = new Response("any data", { status: 201 });
+    // // return res;
+    // // 290
+    // return resData;
+    return response;
   }
 }
 
@@ -91,3 +99,49 @@ export async function loader() {
 // 1.3 Turn into async function
 // GO BACK INTO App.js
 // 287. WHERE SHOULD LOADER() CODE BE STORED?
+
+//
+
+// 288. WHEN ARE LOADER() FUNCTIONS EXECUTED?
+//
+// STEP 1:
+// Before going deeper I wanna clarify when exactly that "loader" is executed.
+// The loader for a page will be called right when we start navigating o that page. No after the page component has been rendered, but before we actually go there. And you can see that that's the case if you go to the backend API => routes folder => events.js
+// Look at first route - that's responsible for returning data to the frontend.
+// 1.1 Add in events.js (backend) "setTimeout()"
+// 1.2 Move "res.json" code into the timeout callback function
+// This will simply ensure that the response is only sent back from the backend to the frontend after one and a half second (1500 ms). This delay show you how this is reflected on the frontend.
+// React router will actually wait for the data to be fetched, so for the loader to be finished before it then renders the page with the fetched data.
+// The advantage of this approach is that you can rely on the data being there once the "EventsPage" component is being rendered. You don't need to worry about whether the data is there yet or not, and therefore you don't need to render a loading state on this events page component
+// 288. WHEN ARE LOADER() FUNCTIONS EXECUTED?
+
+// 290. RETURNING RESPONSES IN LOADER()S
+//
+// STEP 1:
+// One important aspect of a loader is to understand that you can return any kind of data in that loader.
+// In this case I return an array of events ("resData.events").
+// But we could return a number, text, an object... and what you can also return is a response object.
+// What i mean: in browser you can create a new response object, which I'll name res, here, by instantiating the built-in response constructor function. /// "const res = new Response();" - this is a modern browser feature. You can build your own responses.
+// Important to understand - code of this "loader" will not execute on a server, this is still all happening in the browser, even though it's not in a component it's still in a browser (still client-side code).
+// 1.1 Now, this response constructor also takes any data of your choice as a first argument and then you can configured it with greater detail with help of an extra object that can be set as a second argument. /// "const res = new Response("any data", { status: 201 })"
+// 1.2 Now, whenever you return such a response in your loaders, the React Router package will automatically extract the data from your response when using "useLoaderData"
+// 1.3 Add "return res".
+// So the data returned by "useLoaderData" will still be the response data that was part of the response you returned in your loader.
+// Now, combined with React Router's support for these response objects and t's automatic data extraction, that simply means that you can take that reposnse, which you get ("const response = await fetch("http://localhost:8080/events");") and return that in your loader.
+// You don't need to manually extract data from the response. Instead, you can return your response (like this: "const resData = await response.json();return resData;" => "return response") with or without checking whether it's okay.
+// Now, we can just return the response like this and "useLoaderData" will then automatically give us the data that's part of the response.
+// 1.4 "const data = useLoaderData();" /// "events" => to "data".
+// 1.5 Nowm I just have to make sure that I do extract my "events" fro, that data object which I get here, because that is ("data") actually an object with an events key, just s I extracted events from the response data in my loader.
+// 290. RETURNING RESPONSES IN LOADER()S
+
+//
+
+// 292. ERROR HANDLING WITH CUSTOMS ERRORS
+//
+// STEP 1:
+// Now it's move on to error handling because of course fetching the data could go wrong, Now we're not handling errors anymore.
+// For example here when we see that the response is not okay, if it has a 400ish or 500ish status code, what we can do in that case is we can return a different response, or just return an object (doesn't have to be a response). where we could add "isError" key and a message.
+// 1.1 Add "return { isError: true, message: "Could not fetch events." };"
+// So now we return this data package instead of the response returnde by our API request.
+// 1.2 In component code we could now simply check
+// 292. ERROR HANDLING WITH CUSTOMS ERRORS
