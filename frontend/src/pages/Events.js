@@ -35,9 +35,10 @@ import EventsList from "../components/EventsList";
 function EventsPage() {
   const data = useLoaderData();
 
-  if (data.isError) {
-    return <p>{data.message}</p>;
-  }
+  // First solutuon
+  // if (data.isError) {
+  //   return <p>{data.message}</p>;
+  // }
 
   const events = data.events;
 
@@ -50,7 +51,8 @@ export async function loader() {
   const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
-    return { isError: true, message: "Could not fetch events." };
+    // return { isError: true, message: "Could not fetch events." };
+    throw { message: "Could not fetch events." };
   } else {
     // const resData = await response.json();
     // // return resData.events;
@@ -149,5 +151,10 @@ export async function loader() {
 // 1.1 Add "return { isError: true, message: "Could not fetch events." };"
 // So now we return this data package instead of the response returnde by our API request.
 // 1.2 In component code we could now simply check "if(data.isError)" if "isError" property exist we could return a paragraph where we output "data.message" /// "return <p>{data.message}</p>;"
-// If I now deliberately break this code by sending the request to a path that doesn't exist
+// If I now deliberately break this code by sending the request to a path that doesn't exist on the backedn, you will see that I get this.
+// So that one-way of handling errors, simply returning data that indicates that we have an error and then using that data appropriately in the component
+// 1.3 As an elternative to returning this data to the component, we could throw an error. For  this we can construct a new error object "throw new Error()" with the built in error constructor, or we throw any other kind of object as an error.
+// Now, when an error gets thrown in a loader something special happens. React Router will simply render the CLOSEST error element.
+// We can add an Error.js page.
+// GO TO --- >>> Error.js
 // 292. ERROR HANDLING WITH CUSTOMS ERRORS
