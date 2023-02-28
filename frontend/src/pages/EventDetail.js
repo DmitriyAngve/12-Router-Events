@@ -21,3 +21,11 @@ export default EventDetailPage;
 
 // Next step: Adding nested layout route that adds the <EventNavigation> component above all /events... GO TO App.js --->>>
 // 283 ROUTING PRACTICE
+
+//
+
+// 295. DYNAMIC ROUTES & LOADER()S
+// CAME FROM EventsList.js
+// STEP 2:
+// 2.1
+// 295. DYNAMIC ROUTES & LOADER()S
