@@ -1,5 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import EventDetailPage from "./pages/EventDetail";
+import EventDetailPage, {
+  loader as eventDetailLoader,
+} from "./pages/EventDetail";
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import HomePage from "./pages/Home";
 import NewEventPage from "./pages/NewEvent";
@@ -24,7 +26,11 @@ const router = createBrowserRouter([
             element: <EventsPage />,
             loader: eventsLoader,
           },
-          { path: ":eventId", element: <EventDetailPage /> },
+          {
+            path: ":eventId",
+            element: <EventDetailPage />,
+            loader: eventDetailLoader,
+          },
           { path: "new", element: <NewEventPage /> },
           { path: ":eventId/edit", element: <EditEventPage /> },
         ],
@@ -126,3 +132,11 @@ export default App;
 // 292. ERROR HANDLING WITH CUSTOMS ERRORS
 
 //
+
+// 295. DYNAMIC ROUTES & LOADER()S
+// CAME FROM EventDetail.js
+// STEP 3:
+// 3.1 We have to add the "loader" property to the "<EventDetail>" page route, and import the "loader" from "EventDetail.js" as "eventDetailLoader"
+// 3.2 "eventDetailLoader" set as a value for the loader property of this route definition.
+// CAME BACK
+// 295. DYNAMIC ROUTES & LOADER()S
