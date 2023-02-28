@@ -28,7 +28,7 @@
 
 // export default EventsPage;
 
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, json } from "react-router-dom";
 
 import EventsList from "../components/EventsList";
 
@@ -48,11 +48,15 @@ function EventsPage() {
 export default EventsPage;
 
 export async function loader() {
-  const response = await fetch("http://localhost:8080/events3413");
+  const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
     // return { isError: true, message: "Could not fetch events." };
-    throw { message: "Could not fetch events." };
+    // throw { message: "Could not fetch events." };
+    // throw new Response(
+    //   JSON.stringify({ message: "Could not fetch events.", status: 500 })
+    // );
+    return json({ message: "Could not fetch events." }, { status: 500 });
   } else {
     // const resData = await response.json();
     // // return resData.events;
@@ -158,3 +162,26 @@ export async function loader() {
 // We can add an Error.js page.
 // GO TO --- >>> Error.js
 // 292. ERROR HANDLING WITH CUSTOMS ERRORS
+
+//
+
+// 293. EXTRACTING ERROR DATA & THROWING RESPONSES
+// CAME FROM Error.js
+// STEP 2:
+// 2.2 So to differentiate between errors is instead of throwing a object, we can throw a response by again creating a new response. And then we can include some data into that response. /// "throw new Response();"
+// 2.3 For this we call "JSON.stringify({})" if we wanna pass an object to the response.
+// 2.4 And we can add a message prop and say "Could not fetch events."
+// 2.5 And now we can add this second argument to the response constructor and set the status to 500 to indicate that something went wrong on the back end.
+// I'm doing this because you can actually get hold of the data that's being thrown as an error inside of the component that's being rendered as an error element. And for that r-r-d gives you another special hook.
+
+// GO TO Error.js --->>>
+
+// 293. EXTRACTING ERROR DATA & THROWING RESPONSES
+
+// 294. THE JSON() UTILITY FUNCTION
+// STEP 1:
+// 1.1 Instead of creating your response like this "throw new Response( JSON.stringify({ message: "Could not fetch events.", status: 500 }));" - you can return the result of calling JSON "return json()".
+// A "json()" is a function imported fron r-r-d. "json()" is a function that creates a response object that includes data in the json format.
+// 1.2 To this json fucntion, you simply pass your data that should be included in the response, and you don't need convert it to "JSON" manually. And pass the second argument where you can set extra response metadata like this "status" - set this "status" like 500.
+// Now with  "json({})" you don't just have to type less code here, but in the place where you use that response data you also don't have to parse the "json" format manually.
+// 294. THE JSON() UTILITY FUNCTION
