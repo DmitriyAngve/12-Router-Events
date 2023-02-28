@@ -6,11 +6,13 @@ import NewEventPage from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
 import RootLayout from "./pages/Root";
 import EventsRootLayout from "./pages/EventsRoots";
+import ErrorPage from "./pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
       {
@@ -115,3 +117,10 @@ export default App;
 // 2.1 Import "loader" as "eventsLoader" (name is up to you).
 // 2.2 "loader: eventsLoader" loader points to imported function
 // 287. WHERE SHOULD LOADER() CODE BE STORED?
+
+// 292. ERROR HANDLING WITH CUSTOMS ERRORS
+// CAME FROM Error.js
+// STEP 3:
+// 3.1 Add error element on this Root Route and render our error page.
+// With that, this page, this error page, will be displayed whenever we basically have any kind of error anywhere in our routes because even though I'm throwing an error in the loader of the "<EventsPage />". In deeply nested route error will bubble up. If we add new "errorElement" in nested route, that creats new error elements for this route. But we can also just have this Root level error element and the rror would bubble up until it reaches that route.
+// 292. ERROR HANDLING WITH CUSTOMS ERRORS
