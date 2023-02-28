@@ -48,7 +48,7 @@ function EventsPage() {
 export default EventsPage;
 
 export async function loader() {
-  const response = await fetch("http://localhost:8080/events");
+  const response = await fetch("http://localhost:8080/events3413");
 
   if (!response.ok) {
     // return { isError: true, message: "Could not fetch events." };
