@@ -124,3 +124,8 @@ export default App;
 // 3.1 Add error element on this Root Route and render our error page.
 // With that, this page, this error page, will be displayed whenever we basically have any kind of error anywhere in our routes because even though I'm throwing an error in the loader of the "<EventsPage />". In deeply nested route error will bubble up. If we add new "errorElement" in nested route, that creats new error elements for this route. But we can also just have this Root level error element and the rror would bubble up until it reaches that route.
 // 292. ERROR HANDLING WITH CUSTOMS ERRORS
+
+//
+
+// 295. DYNAMIC ROUTES & LOADER()S
+// 295. DYNAMIC ROUTES & LOADER()S
