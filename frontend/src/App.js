@@ -1,14 +1,15 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import EditEventPage from "./pages/EditEvent";
+import ErrorPage from "./pages/Error";
 import EventDetailPage, {
   loader as eventDetailLoader,
 } from "./pages/EventDetail";
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
+import EventsRootLayout from "./pages/EventsRoot";
 import HomePage from "./pages/Home";
 import NewEventPage, { action as newEventAction } from "./pages/NewEvent";
-import EditEventPage from "./pages/EditEvent";
 import RootLayout from "./pages/Root";
-import EventsRootLayout from "./pages/EventsRoot";
-import ErrorPage from "./pages/Error";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +51,6 @@ function App() {
 }
 
 export default App;
-
 // 283 ROUTING PRACTICE
 //
 // STEP 1:

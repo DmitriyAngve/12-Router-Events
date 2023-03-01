@@ -32,7 +32,6 @@ export async function action({ request, params }) {
 
   return redirect("/events");
 }
-
 // 297. PLANNING DATA SUBMISSION
 //
 // STEP 1:
