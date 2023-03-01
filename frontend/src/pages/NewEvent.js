@@ -1,3 +1,5 @@
+import { json, redirect } from "react-router-dom";
+
 import EventForm from "../components/EventForm";
 
 function NewEventPage() {
@@ -5,6 +7,31 @@ function NewEventPage() {
 }
 
 export default NewEventPage;
+
+export async function action({ request, params }) {
+  const data = await request.formData();
+
+  const eventData = {
+    title: data.get("title"),
+    image: data.get("image"),
+    date: data.get("date"),
+    description: data.get("description"),
+  };
+
+  const response = await fetch("http://localhost:8080/events", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+
+  if (!response.ok) {
+    throw json({ message: "Could not save event." }, { status: 500 });
+  }
+
+  return redirect("/events");
+}
 
 // 297. PLANNING DATA SUBMISSION
 //
@@ -19,3 +46,32 @@ export default NewEventPage;
 // We could navigate away with imperative, and navigation, with help of "useNavigate" hook, we could do all of that, but as you can probably already tell by the fact that I'm saying could, thee is a better approach when using r-r-d.
 // We can also add actions to send data, and that is what we should do here.
 // 297. PLANNING DATA SUBMISSION
+
+//
+
+// 298. WORKING WITH ACTION() FUNCTIONS
+// CAME FROM App.js
+// STEP 2:
+// 2.1 First of all create function /// "export async function action() {}"
+// 2.2 In this function we can send request to the backend.
+// Don't foget - this function on the client side, this is not backend code, and this function executes into browser. I can use any browser API (like localStorage).
+// 2.3 Add "fetch" for send a request. Method - POST, and some data to the request (body). And here the data I wanna send is that data was submitted with the form.
+// R-r-d makes handling form submissions a brace ("<EventForm>") and it helps with extracting data from that form.
+// For that, you should go to that form --->>> GO TO EventForm.js
+//
+// CAME FROM EventForm.js
+// STEP 4:
+// 4.1 To get hold of that request that is captured by r-r-d and forwarded to that action we have to use the data that's passend to this action function, because just as a loader function is executed by r-r-d, and it receives an object that includes a couple of helpfull properties. To be precise again, the "request" and "params" properties.
+// 4.2 "request" object contains the form data (from "EventForm"). To get hold of that form data, we have to call the special form data method on the "request" object and await it (stored in data const) /// "const data = await request.formData()".
+// 4.3 On this "data" object we can call the ".get" method to get access to the different input field values that were submitted. /// "data.get("");"
+// 4.4 To ".get()" we pass a string with the different identifiers of our input fields. ("name: "title" and others from EventForm), like this /// "const enteredTitle = data.get("title")".
+// 4.5 For simplify we create object, where I have my title, which is set equal to the extracted "title".
+// With help of the taht request we extract our submitted data.
+// 4.6 Now with that, it's this "eventData" that should be sent to the backend, and we have to convert it to JSON. /// "body: JSON.stringify(eventData),"
+// 4.7 In addition add "headers: { "Content-Type": "application/json" }" for send the data is handled and extracted correctly on the backend.
+// 4.8 Store into "response"
+// And than we can look into this "response" extract the return data and do whatever we need to do.
+// 4.9 We can add "ifcheck" if it's maybe not okay and in that case throw an error response with that built-in JSON function, which we can get from r-r-d.
+// And that would then display our "ErrorPage" if we throw error respose like this. This works for actions, as it worked for loaders. /// " throw json({ message: "Could not save event." }, { status: 500 })"
+// With that action defined, we can go back to App.js --->>> GO TO App.js
+// 298. WORKING WITH ACTION() FUNCTIONS

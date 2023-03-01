@@ -4,7 +4,7 @@ import EventDetailPage, {
 } from "./pages/EventDetail";
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import HomePage from "./pages/Home";
-import NewEventPage from "./pages/NewEvent";
+import NewEventPage, { action as newEventAction } from "./pages/NewEvent";
 import EditEventPage from "./pages/EditEvent";
 import RootLayout from "./pages/Root";
 import EventsRootLayout from "./pages/EventsRoots";
@@ -38,8 +38,7 @@ const router = createBrowserRouter([
               { path: "edit", element: <EditEventPage /> },
             ],
           },
-
-          { path: "new", element: <NewEventPage /> },
+          { path: "new", element: <NewEventPage />, action: newEventAction },
         ],
       },
     ],
@@ -168,3 +167,18 @@ export default App;
 // 5.1 To make sure that we use right loader (in our case it's a "loader: evensDetailLoader") So the data from this parent route we should add a special "id" property which we can add to route definitions. /// "id: "event-detail",".
 // GO to EventDetail.js --->>>
 // 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
+
+//
+
+// 298. WORKING WITH ACTION() FUNCTIONS
+//
+// STEP 1:
+// 1.1 So to add an action to this new route we add the special action property. just like loader, action wants a function (just as with loaders we typically don't wanna add our action functions here in our route definitions file) but instead we want to keep that code close to the components to which it belongs.
+// In this case GO TO NewEvent.js file --->>>
+//
+// CAME FROM NewEvent.js
+// STEP 5:
+// 5.1 Import this action from a "NewEvent" /// "import NewEventPage, { action as newEventAction } from "./pages/NewEvent";"
+// 5.2 Use this "newEventAction" as a value for this action property on this route definition (where we define action) /// "{ path: "new", element: <NewEventPage />, action: newEventAction }"
+// 5.3
+// 298. WORKING WITH ACTION() FUNCTIONS

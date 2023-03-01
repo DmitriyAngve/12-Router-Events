@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router-dom";
+import { Form } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
-  const navigate = useNavigate();
-  function cancelHandler() {
-    navigate("..");
-  }
+  // const navigate = useNavigate();
+  // function cancelHandler() {
+  //   navigate("..");
+  // }
 
   return (
-    <form className={classes.form}>
+    <Form className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input
@@ -51,12 +51,10 @@ function EventForm({ method, event }) {
         />
       </p>
       <div className={classes.actions}>
-        <button type="button" onClick={cancelHandler}>
-          Cancel
-        </button>
+        <button type="button">Cancel</button>
         <button>Save</button>
       </div>
-    </form>
+    </Form>
   );
 }
 
@@ -73,3 +71,15 @@ export default EventForm;
 // We want to make sure that we use this loader's data instead.
 // GO TO App.js
 // 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
+
+//
+
+// 298. WORKING WITH ACTION() FUNCTIONS
+// CAME FROM NewEvent.js
+// STEP 3:
+// Here I make sure that all your inputs have the name attribute because those names wiull later be used for extracting the data.
+// 3.1 Now you should replace the "form" element with the special "<Form>" component. Import it from r-r-d.
+// This "<Form>" tag will make sure that the browser default of sending a request ti the backend will be omitted, but it will take that request that would've been sent and give it to your action. That request will contain all the data that was submitted as part of the form.
+// 3.2 Add into "<Form>" method property and set in to post. This request wil not be sent to the backend automatically, but instead to your action. And it will include all the form data, if you use special "<Form>" component.
+// Now GO TO NewEvents.js --->>>
+// 298. WORKING WITH ACTION() FUNCTIONS
