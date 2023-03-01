@@ -1,9 +1,9 @@
-import { useLoaderData, json } from "react-router-dom";
+import { useRouteLoaderData, json } from "react-router-dom";
 
 import EventItem from "../components/EventItem";
 
 function EventDetailPage() {
-  const data = useLoaderData();
+  const data = useRouteLoaderData("event-detail");
 
   return <EventItem event={data.event} />;
 }
@@ -69,4 +69,15 @@ export async function loader({ request, params }) {
 // 4.1 We can now "useLoaderData" hook to get hold of that data. /// "const data = useLoaderData();"
 // 4.2 And with that, we can then use this data object to access to event property, because I know my backend API will include the actual event data for the loaded event in an event property on that overall response data object. /// "return <EventItem event={data.event} />"
 // So with "data.event", I access that event data (data = useLoaderData()), and I pass that as a value to the event prop on event item.
+
 // 295. DYNAMIC ROUTES & LOADER()S
+
+//
+
+// 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
+// CAME FROM App.js
+// STEP 6:
+// 6.1 Instead of using "useLoaderData" we use different hook "useRouteLoaderData" this hook works almost like "useLoaderData" but it takes a route ID as an argument (in our case is "event-detail" - i added this in App.js "id: "event-detail"")
+// And I use the same hook in EditEvent.js.
+// GO TO EditEvent.js --->>>
+// 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES

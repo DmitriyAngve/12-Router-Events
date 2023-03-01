@@ -28,17 +28,18 @@ const router = createBrowserRouter([
           },
           {
             path: ":eventId",
+            id: "event-detail",
+            loader: eventDetailLoader,
             children: [
               {
-                path: ":eventId",
+                index: true,
                 element: <EventDetailPage />,
-                loader: eventDetailLoader,
               },
+              { path: "edit", element: <EditEventPage /> },
             ],
           },
 
           { path: "new", element: <NewEventPage /> },
-          { path: ":eventId/edit", element: <EditEventPage /> },
         ],
       },
     ],
@@ -156,5 +157,14 @@ export default App;
 // 2.1 Instead we can add a new route definition here where we set: "path: ":eventId",". The same path as we have it "<EventDetailPage />"
 // Thas route doesn't render an element. I will not add element here.
 // 2.2 Instead I just add "children" and the children and the children of these route will be route of "<EventDetailPage />", where I now set the path an empty string or set "index: true".
-// 2.3 And route with "<EditEventPage />"
+// 2.3 And route with "<EditEventPage />" where I remove dynamic path segment.
+// 2.4 I want to add a loader to this route (I remove loader from first child) at this wrapper route.
+// Theory: you can access loader data with use loader data with this special hook provided by r-r-d in any component that's on the same level or lower level than the route where the loader is added to.
+// In this case this "loader: eventDetailLoader" whenever we visit route nested in route with that "loader".
+// GO TO EditEvent.js --->>>
+//
+// CAME FROM EvetForm.js
+// STEP 5:
+// 5.1 To make sure that we use right loader (in our case it's a "loader: evensDetailLoader") So the data from this parent route we should add a special "id" property which we can add to route definitions. /// "id: "event-detail",".
+// GO to EventDetail.js --->>>
 // 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
