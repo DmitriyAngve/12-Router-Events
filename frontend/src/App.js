@@ -28,9 +28,15 @@ const router = createBrowserRouter([
           },
           {
             path: ":eventId",
-            element: <EventDetailPage />,
-            loader: eventDetailLoader,
+            children: [
+              {
+                path: ":eventId",
+                element: <EventDetailPage />,
+                loader: eventDetailLoader,
+              },
+            ],
           },
+
           { path: "new", element: <NewEventPage /> },
           { path: ":eventId/edit", element: <EditEventPage /> },
         ],
@@ -140,3 +146,15 @@ export default App;
 // 3.2 "eventDetailLoader" set as a value for the loader property of this route definition.
 // CAME BACK
 // 295. DYNAMIC ROUTES & LOADER()S
+
+//
+
+// 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
+// CAME FROM EditEvent.js
+// These are two route definitions, "<EventDetailPage />" and "<EditEventPage />", and therefore two separate loaders would be needed. But actuaalu we don't have to repeat our code here.
+// STEP 2:
+// 2.1 Instead we can add a new route definition here where we set: "path: ":eventId",". The same path as we have it "<EventDetailPage />"
+// Thas route doesn't render an element. I will not add element here.
+// 2.2 Instead I just add "children" and the children and the children of these route will be route of "<EventDetailPage />", where I now set the path an empty string or set "index: true".
+// 2.3 And route with "<EditEventPage />"
+// 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
