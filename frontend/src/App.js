@@ -3,7 +3,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import EditEventPage from "./pages/EditEvent";
 import ErrorPage from "./pages/Error";
 import EventDetailPage, {
-  loader as eventDetailLoader, action as deleteEventAction
+  loader as eventDetailLoader,
+  action as deleteEventAction,
 } from "./pages/EventDetail";
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import EventsRootLayout from "./pages/EventsRoot";
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <EventDetailPage />,
-                action:
+                action: deleteEventAction,
               },
               { path: "edit", element: <EditEventPage /> },
             ],
@@ -197,8 +198,14 @@ export default App;
 // 3.1 Add "action" into route with "<EventDetailPage>".
 // For the moment, I want to the action to this "<EventDetailPage>" route and in Eventdetail.js (where rendered <EventItem>) I will add theis action function.
 // GO TO EventDetail.js --->>>
-// 
+//
 // CAME BACK from EventDetail.js
 // STEP 5:
 // 5.1 Now we import this action from EventDetailPage as "deleteEventAction"
+// 5.2 And then assign this to the action property of this ("element: <EventDetailPage />,") route /// "action: deleteEventAction"
+// How we can trigger this action?
+// We need to trigger that action, and submit some data, so to say, programmatically. We can submit data and trigger an action programmatically with the special "useSubmit" hook.
+
+// GO TO EventItem.js --- >>>
+
 // 299. SUBMITTIMG DATA PROGRAMMATICALLY
