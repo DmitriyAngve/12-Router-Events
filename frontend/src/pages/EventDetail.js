@@ -27,6 +27,20 @@ export async function loader({ request, params }) {
   }
 }
 
+export async function action({ params }) {
+  const eventId = params.eventId;
+  const response = await fetch("http://localhost:8080/events" + eventId);
+
+  if (!response.ok) {
+    throw json(
+      { message: "Could not delete event." },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
 // 283 ROUTING PRACTICE
 //
 //STEP 8:
@@ -81,3 +95,19 @@ export async function loader({ request, params }) {
 // And I use the same hook in EditEvent.js.
 // GO TO EditEvent.js --->>>
 // 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
+
+//
+
+// 299. SUBMITTIMG DATA PROGRAMMATICALLY
+// CAME FROM App.js
+// STEP 4:
+// 4.1 I will add this action function /// "export async function action() {}"
+// 4.2 And hee we then want to add the code for deleting an event. For that, we wanna use the "fetch()" and the URL and the path to which we need to send a request and then the ID of the event that should be deleted.
+// 4.3 We can get that ID with the "params" object which we get for actions just as we do for "loaders"
+// 4.4 So we got the eventID by accessing "params.eventId".
+// 4.5 And now you can add this "eventId" to URL.
+// 4.6 Get our response and add "await".
+// 4.7 Add check if "response" is okay.
+// 4.8 Add a successfull case. We want to probably redirect the user, so here in that case, if we make it pass this "ifcheck" where we check if the "response" is okay. I will return "redirect" to redirect the user, and load a different route with help of the built-in redirect function, which is imported from r-r-d and redirect the user to, "/events" (to a list of all events)
+// GO TO App.js and use this action --->>>
+// 299. SUBMITTIMG DATA PROGRAMMATICALLY

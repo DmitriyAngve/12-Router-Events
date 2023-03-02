@@ -3,7 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import EditEventPage from "./pages/EditEvent";
 import ErrorPage from "./pages/Error";
 import EventDetailPage, {
-  loader as eventDetailLoader,
+  loader as eventDetailLoader, action as deleteEventAction
 } from "./pages/EventDetail";
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import EventsRootLayout from "./pages/EventsRoot";
@@ -35,6 +35,7 @@ const router = createBrowserRouter([
               {
                 index: true,
                 element: <EventDetailPage />,
+                action:
               },
               { path: "edit", element: <EditEventPage /> },
             ],
@@ -182,3 +183,22 @@ export default App;
 // 5.2 Use this "newEventAction" as a value for this action property on this route definition (where we define action) /// "{ path: "new", element: <NewEventPage />, action: newEventAction }"
 // 5.3
 // 298. WORKING WITH ACTION() FUNCTIONS
+
+//
+
+// 299. SUBMITTIMG DATA PROGRAMMATICALLY
+// Let's show a defferent way of triggering such a action function.
+// STEP 1:
+// <Form> providing by r-r-d. This "<Form>" will automatically trigger the action function of the currently active route, so the route for which form was loaded.
+// 1.1 Now you send the request to a different route by adding the action prop this "<Form>" component and setting this to any other path
+// CAME FROM EventItem.js
+// STEP 3:
+// Since event item will be rendered as part of the "EventDetailPage" component, which is loaded for "EventDetailPage" route in App.js, we should add the action to this event detail route
+// 3.1 Add "action" into route with "<EventDetailPage>".
+// For the moment, I want to the action to this "<EventDetailPage>" route and in Eventdetail.js (where rendered <EventItem>) I will add theis action function.
+// GO TO EventDetail.js --->>>
+// 
+// CAME BACK from EventDetail.js
+// STEP 5:
+// 5.1 Now we import this action from EventDetailPage as "deleteEventAction"
+// 299. SUBMITTIMG DATA PROGRAMMATICALLY

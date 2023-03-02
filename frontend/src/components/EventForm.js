@@ -9,6 +9,7 @@ function EventForm({ method, event }) {
   }
 
   return (
+    // <Form method="post" action="/any-other-part" className={classes.form}>
     <Form method="post" className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
@@ -85,3 +86,16 @@ export default EventForm;
 // 3.2 Add into "<Form>" method property and set in to post. This request wil not be sent to the backend automatically, but instead to your action. And it will include all the form data, if you use special "<Form>" component.
 // Now GO TO NewEvents.js --->>>
 // 298. WORKING WITH ACTION() FUNCTIONS
+
+//
+
+// 299. SUBMITTIMG DATA PROGRAMMATICALLY
+// Let's show a defferent way of triggering such a action function.
+// STEP 1:
+// <Form> providing by r-r-d. This "<Form>" will automatically trigger the action function of the currently active route, so the route for which form was loaded.
+// 1.1 Now you send the request to a different route by adding the action prop this "<Form>" component and setting this to any other path /// "action="/any-other-part""
+// Then in that case, the action of another path, of another route definition object, would be triggered.
+// So if you had an action on some other route in App.js you could point at that action by simply setting the form's action prop value to the path of the route for which you wanna triggere the action, but if you wanna trigger the action of the currently active route you don't need the action prop.
+// i wanna show you a totally different way of triggering an action. Fo that let's take a look at the "EventDetail.js" component (EventDetailPage)
+// GO TO EventItem.js --->>> (which we dysplayed in EventDetail)
+// 299. SUBMITTIMG DATA PROGRAMMATICALLY
