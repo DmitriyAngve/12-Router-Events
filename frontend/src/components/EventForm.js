@@ -1,9 +1,11 @@
-import { useNavigate, Form } from "react-router-dom";
+import { Form, useNavigate, useNavigation } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
   const navigate = useNavigate();
+  const navigation = useNavigation();
+
   function cancelHandler() {
     navigate("..");
   }
@@ -99,3 +101,13 @@ export default EventForm;
 // i wanna show you a totally different way of triggering an action. Fo that let's take a look at the "EventDetail.js" component (EventDetailPage)
 // GO TO EventItem.js --->>> (which we dysplayed in EventDetail)
 // 299. SUBMITTIMG DATA PROGRAMMATICALLY
+
+//
+
+// 300. UPDATING THE UI STATE BASED ON THE SUBMISSION STATUS
+// Then we navigate it to a different page, we don't get any feedback regarding that and to diable the save button so that users don't try to submit the same form multiple times.
+// We can get and incorporate that feedback.
+// STEP 1:
+// 1.1 I wanna use hook "useNavigation", let's import and call and give access to a "navigation" object.
+// We can find out what the current state of the currently active transition is. And we gave a transition from one route to another if we click a link. But we also have a transition if we submit a form. And therefore, we also get information about the current data submission process about and whether it completed already.
+// 300. UPDATING THE UI STATE BASED ON THE SUBMISSION STATUS
