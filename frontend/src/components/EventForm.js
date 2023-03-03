@@ -6,6 +6,8 @@ function EventForm({ method, event }) {
   const navigate = useNavigate();
   const navigation = useNavigation();
 
+  const isSubmitting = navigation.state === "submitting";
+
   function cancelHandler() {
     navigate("..");
   }
@@ -54,10 +56,12 @@ function EventForm({ method, event }) {
         />
       </p>
       <div className={classes.actions}>
-        <button type="button" onClick={cancelHandler}>
+        <button type="button" onClick={cancelHandler} disabled={isSubmitting}>
           Cancel
         </button>
-        <button>Save</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Save"}
+        </button>
       </div>
     </Form>
   );
@@ -109,5 +113,8 @@ export default EventForm;
 // We can get and incorporate that feedback.
 // STEP 1:
 // 1.1 I wanna use hook "useNavigation", let's import and call and give access to a "navigation" object.
-// We can find out what the current state of the currently active transition is. And we gave a transition from one route to another if we click a link. But we also have a transition if we submit a form. And therefore, we also get information about the current data submission process about and whether it completed already.
+// We can find out what the current state of the currently active transition is. And we gave a transition from one route to another if we click a link. But we also have a transition if we submit a form. And therefore, we also get information about the current data submission process about and whether it completed already. So whether the action that was triggered completed already.
+// 1.2 We can add a helper const called "isSubmitting" and in there, I simply store the result of comparing navigation.state to submitting. /// "const isSubmitting = navigation.state === "submitting"". /// If the current state is submitting, I know that we are currently submitting data so that the action that was triggered is currently still active.
+// 1.3 And we can use this "isSubmitting" field for disable Save button. We can disable it by setting this to "isSubmitting". /// "<button disabled={isSubmitting}>Save</button>"
+// 1.4 Do the same for Cancel button.
 // 300. UPDATING THE UI STATE BASED ON THE SUBMISSION STATUS
