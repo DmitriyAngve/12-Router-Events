@@ -1,8 +1,14 @@
-import { Form, useNavigate, useNavigation } from "react-router-dom";
+import {
+  Form,
+  useNavigate,
+  useNavigation,
+  useActionData,
+} from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
 function EventForm({ method, event }) {
+  const data = useActionData();
   const navigate = useNavigate();
   const navigation = useNavigation();
 
@@ -13,8 +19,14 @@ function EventForm({ method, event }) {
   }
 
   return (
-    // <Form method="post" action="/any-other-part" className={classes.form}>
     <Form method="post" className={classes.form}>
+      {data && data.errors && (
+        <ul>
+          {Object.values(data.errors).map((err) => (
+            <li key={err}>{err}</li>
+          ))}
+        </ul>
+      )}
       <p>
         <label htmlFor="title">Title</label>
         <input
@@ -118,3 +130,16 @@ export default EventForm;
 // 1.3 And we can use this "isSubmitting" field for disable Save button. We can disable it by setting this to "isSubmitting". /// "<button disabled={isSubmitting}>Save</button>"
 // 1.4 Do the same for Cancel button.
 // 300. UPDATING THE UI STATE BASED ON THE SUBMISSION STATUS
+
+//
+
+// 301. VALIDATING USER INPUT & OUTPUTTING VALIDATION ERRORS
+//
+// STEP 2:
+// 2.1 In "EventForm" component I provide by r-r-d new hook "useActionData". It gives us access to the data returned by our action, in this case, not by the loader, but by the action and it gives us access to the closest action.
+// I can use this in this component even though it's not the page component because it's rendered by the page component for which this action was defined where I return that response.
+// So with that, in "EventForm" component, I get this "data" object and if I return a response in an action and if I return a response in an action this response is automatically parsed by r-r-d, just as it is the case for loaders. This "data" is the "data" I return on my backend in case of validation errors. And that would be an object with a general message (see events.js on backend) and nested errors object, which has different keys for the different inputs with more detailed error messages, (errors.date... title... image) if you wanna call it like this.
+// 2.2 I could check if data is set because it will not be set if we haven't submitted the form yet, because that data is coming from an action. And then I check if I have this errors object, this nested errors object on my data.
+// In which case I want to return or output an unordered list where I then use "Object.values" to loop through all my keys in this errors object and map my data here, the data that's stored for these different keys to list items. Every list item receives the special key prop, which is expected by React, and I set it equal to the error message I'm havening here, and I output the error message.
+// So that's how I'm putting these validation errors I could be getting from the backend.
+// 301. VALIDATING USER INPUT & OUTPUTTING VALIDATION ERRORS

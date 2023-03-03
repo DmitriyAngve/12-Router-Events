@@ -26,6 +26,10 @@ export async function action({ request, params }) {
     body: JSON.stringify(eventData),
   });
 
+  if (response.status === 422) {
+    return response;
+  }
+
   if (!response.ok) {
     throw json({ message: "Could not save event." }, { status: 500 });
   }
@@ -74,3 +78,12 @@ export async function action({ request, params }) {
 // And that would then display our "ErrorPage" if we throw error respose like this. This works for actions, as it worked for loaders. /// " throw json({ message: "Could not save event." }, { status: 500 })"
 // With that action defined, we can go back to App.js --->>> GO TO App.js
 // 298. WORKING WITH ACTION() FUNCTIONS
+
+//
+
+// 301. VALIDATING USER INPUT & OUTPUTTING VALIDATION ERRORS
+// I wanna show such such validtion errors in frontend, right in New Event adding form, because that would discard all the values entered by the user and not really offer a good user experience. I wanna stay on this page, but I wanna output some data.
+// STEP 1:
+// 1.1 Outputting some data (as mentioned above) do this in actions by returning the data you wanna output above the form or anywhere in your routes. For that I will check if my "response" status code is equal to 422, which is that validation status code I'M setting on the backend in case of validation errors. If I have that status code, then I want to return my response. I'm returning the response I got back fro the backend if a have this 422 status code on the response.
+// We can go to the EventForm.js, which is in the end rendered by the "NewEventPage" component --- >>>
+// 301. VALIDATING USER INPUT & OUTPUTTING VALIDATION ERRORS
