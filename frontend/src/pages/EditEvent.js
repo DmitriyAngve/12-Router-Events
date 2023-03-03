@@ -32,3 +32,11 @@ export default EditEventPage;
 // STEP 6:
 // 6.1 Chaneg "useLoaderData" to "useRouteLoaderData" and use that id which we assigned.
 // 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
+
+//
+
+// 302. REUSING ACTIONS VIA REQUEST METHODS
+// We are rendering the "EventForm"  and the "EventForm" has a form component, which tries to submit the form data ("<Form>"), but we haven't registered an action for this "<EditEvent>" route (in App.js). The action which I do wanna trigger here is almost the same as for the new event route. We wanna send almost the same kind of request to just a slightly different URL with a different request method. It's basically the same action which I wanna trigger because it's the same form with the same data. Let's reuse that action
+// STEP 1:
+// 1.1
+// 302. REUSING ACTIONS VIA REQUEST METHODS
