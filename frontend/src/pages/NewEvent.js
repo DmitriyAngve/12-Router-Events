@@ -1,41 +1,41 @@
-import { json, redirect } from "react-router-dom";
+// import { json, redirect } from "react-router-dom";
 
 import EventForm from "../components/EventForm";
 
 function NewEventPage() {
-  return <EventForm />;
+  return <EventForm method="post" />;
 }
 
 export default NewEventPage;
 
-export async function action({ request, params }) {
-  const data = await request.formData();
+// export async function action({ request, params }) {
+//   const data = await request.formData();
 
-  const eventData = {
-    title: data.get("title"),
-    image: data.get("image"),
-    date: data.get("date"),
-    description: data.get("description"),
-  };
+//   const eventData = {
+//     title: data.get("title"),
+//     image: data.get("image"),
+//     date: data.get("date"),
+//     description: data.get("description"),
+//   };
 
-  const response = await fetch("http://localhost:8080/events", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(eventData),
-  });
+//   const response = await fetch("http://localhost:8080/events", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(eventData),
+//   });
 
-  if (response.status === 422) {
-    return response;
-  }
+//   if (response.status === 422) {
+//     return response;
+//   }
 
-  if (!response.ok) {
-    throw json({ message: "Could not save event." }, { status: 500 });
-  }
+//   if (!response.ok) {
+//     throw json({ message: "Could not save event." }, { status: 500 });
+//   }
 
-  return redirect("/events");
-}
+//   return redirect("/events");
+// }
 // 297. PLANNING DATA SUBMISSION
 //
 // STEP 1:
@@ -87,3 +87,12 @@ export async function action({ request, params }) {
 // 1.1 Outputting some data (as mentioned above) do this in actions by returning the data you wanna output above the form or anywhere in your routes. For that I will check if my "response" status code is equal to 422, which is that validation status code I'M setting on the backend in case of validation errors. If I have that status code, then I want to return my response. I'm returning the response I got back fro the backend if a have this 422 status code on the response.
 // We can go to the EventForm.js, which is in the end rendered by the "NewEventPage" component --- >>>
 // 301. VALIDATING USER INPUT & OUTPUTTING VALIDATION ERRORS
+
+//
+
+// 302. REUSING ACTIONS VIA REQUEST METHODS
+// CAME FROM EventForm.js
+// STEP 2:
+// 2.1 Here I can set method to "post".
+// GO TO EditEvent.js --- >>>
+// 302. REUSING ACTIONS VIA REQUEST METHODS

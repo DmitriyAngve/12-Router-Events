@@ -9,8 +9,9 @@ import EventDetailPage, {
 import EventsPage, { loader as eventsLoader } from "./pages/Events";
 import EventsRootLayout from "./pages/EventsRoot";
 import HomePage from "./pages/Home";
-import NewEventPage, { action as newEventAction } from "./pages/NewEvent";
+import NewEventPage from "./pages/NewEvent";
 import RootLayout from "./pages/Root";
+import { action as manipulateEventAction } from "./components/EventForm";
 
 const router = createBrowserRouter([
   {
@@ -38,10 +39,18 @@ const router = createBrowserRouter([
                 element: <EventDetailPage />,
                 action: deleteEventAction,
               },
-              { path: "edit", element: <EditEventPage /> },
+              {
+                path: "edit",
+                element: <EditEventPage />,
+                action: manipulateEventAction,
+              },
             ],
           },
-          { path: "new", element: <NewEventPage />, action: newEventAction },
+          {
+            path: "new",
+            element: <NewEventPage />,
+            action: manipulateEventAction,
+          },
         ],
       },
     ],
@@ -209,3 +218,10 @@ export default App;
 // GO TO EventItem.js --- >>>
 
 // 299. SUBMITTIMG DATA PROGRAMMATICALLY
+
+// 302. REUSING ACTIONS VIA REQUEST METHODS
+//
+// STEP 5:
+// 5.1 Remove "{ action as newEventAction }" and I instead import my action as "manipulateEventAction" /// "import { action as manipulateEventAction } from "./components/EventForm";"
+// 5.2 "manipulateEventAction" add to both my "<NewEventPage>" route as well as to this "EditEventPage" /// "action: manipulateEventAction"
+// 302. REUSING ACTIONS VIA REQUEST METHODS

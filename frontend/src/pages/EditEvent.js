@@ -5,7 +5,7 @@ import EventForm from "../components/EventForm";
 function EditEventPage() {
   const data = useRouteLoaderData("event-detail");
 
-  return <EventForm event={data.event} />;
+  return <EventForm method="patch" event={data.event} />;
 }
 
 export default EditEventPage;
@@ -36,7 +36,8 @@ export default EditEventPage;
 //
 
 // 302. REUSING ACTIONS VIA REQUEST METHODS
-// We are rendering the "EventForm"  and the "EventForm" has a form component, which tries to submit the form data ("<Form>"), but we haven't registered an action for this "<EditEvent>" route (in App.js). The action which I do wanna trigger here is almost the same as for the new event route. We wanna send almost the same kind of request to just a slightly different URL with a different request method. It's basically the same action which I wanna trigger because it's the same form with the same data. Let's reuse that action
-// STEP 1:
-// 1.1
+// CAME FROM NewEvent.js
+// STEP 3:
+// 3.1 Set "method" to "patch"
+// GO BACK to EventForm.js --->>>
 // 302. REUSING ACTIONS VIA REQUEST METHODS

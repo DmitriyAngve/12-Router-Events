@@ -3,6 +3,8 @@ import {
   useNavigate,
   useNavigation,
   useActionData,
+  json,
+  redirect,
 } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
@@ -19,7 +21,7 @@ function EventForm({ method, event }) {
   }
 
   return (
-    <Form method="post" className={classes.form}>
+    <Form method={method} className={classes.form}>
       {data && data.errors && (
         <ul>
           {Object.values(data.errors).map((err) => (
@@ -80,6 +82,44 @@ function EventForm({ method, event }) {
 }
 
 export default EventForm;
+
+export async function action({ request, params }) {
+  const method = request.method;
+  const data = await request.formData();
+
+  const eventData = {
+    title: data.get("title"),
+    image: data.get("image"),
+    date: data.get("date"),
+    description: data.get("description"),
+  };
+
+  let url = "http://localhost:8080/events";
+
+  if (method === "patch") {
+    const eventId = params.eventId;
+    url = "http://localhost:8080/events/" + eventId;
+  }
+
+  const response = await fetch(url, {
+    // method: "POST",
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+
+  if (response.status === 422) {
+    return response;
+  }
+
+  if (!response.ok) {
+    throw json({ message: "Could not save event." }, { status: 500 });
+  }
+
+  return redirect("/events");
+}
 
 // 296. THE USEROUTELOADERDATA() HOOK & ACCESSING DATA FROM OTHER ROUTES
 // CAME FROM EditEvent.js
@@ -143,3 +183,26 @@ export default EventForm;
 // In which case I want to return or output an unordered list where I then use "Object.values" to loop through all my keys in this errors object and map my data here, the data that's stored for these different keys to list items. Every list item receives the special key prop, which is expected by React, and I set it equal to the error message I'm havening here, and I output the error message.
 // So that's how I'm putting these validation errors I could be getting from the backend.
 // 301. VALIDATING USER INPUT & OUTPUTTING VALIDATION ERRORS
+
+//
+
+// 302. REUSING ACTIONS VIA REQUEST METHODS
+// We are rendering the "EventForm"  and the "EventForm" has a form component, which tries to submit the form data ("<Form>"), but we haven't registered an action for this "<EditEvent>" route (in App.js). The action which I do wanna trigger here is almost the same as for the new event route. We wanna send almost the same kind of request to just a slightly different URL with a different request method. It's basically the same action which I wanna trigger because it's the same form with the same data. Let's reuse that action
+// STEP 1:
+// 1.1 Grab code from NewEvent.js.
+// Now I wanna change it a little bit. I wanna make the code in this action more dynamic to be able to send both a request for adding a new event as well as for editing an existing event.
+// 1.2 Check what we are using different methods for creating new events or editing events. ("post" for creating new event and "patch" for editing an event)
+// 1.3 I'm actually expecting a method prop in "EventForm". I'm alredy extracting it with object destructuring, which I can set: "<Form method={method} className={classes.form}>"
+// And this could now be set from inside NewEvent and from inside EditEvent.
+// GO TO NewEvent.js --->>>
+//
+// CAME FROM EditEvent.js
+// STEP 4:
+// 4.1 We can get access to that method in our action on "request object" ("export async function action({ request, params }) {" - here!). There, we can extract the method: "const method = request.method;" like this.
+// 4.2 This "method" can be used to set the "method" of the "request" we're sending to the backend. /// "method: method"
+// 4.3 Let's change the URL. Create variable "let url = "http://localhost:8080/events"".
+// 4.4 Add "ifcheck" if "method" is equal to patch, which means we're EDITING an event instead of ADDING an event. In that case. O want to get the id of the event ("eventId") which we're editing by accessing my "params" ("params" object, which we also get from r-r-d) /// "const eventId = params.eventId;" "eventId" - because in my route definitions I chose ":eventId" as a placeholder name.
+// 4.5 In that case, my "url" is basically URL plus "eventId".
+// With all of that, I have a dynmic way of sending a request to different URL's with different methods, but with always the same data depending on how this action was triggered.
+// GO BACK TO App.js --->
+// 302. REUSING ACTIONS VIA REQUEST METHODS
