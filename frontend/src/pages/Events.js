@@ -1,51 +1,30 @@
-// import { Link } from "react-router-dom";
-
-// const DUMMY_EVENTS = [
-//   {
-//     id: "e1",
-//     title: "Some event",
-//   },
-//   {
-//     id: "e2",
-//     title: "Another event",
-//   },
-// ];
-
-// function EventsPage() {
-//   return (
-//     <>
-//       <h1>EventsPage</h1>
-//       <ul>
-//         {DUMMY_EVENTS.map((event) => (
-//           <li key={event.id}>
-//             <Link to={event.id}>{event.title}</Link>
-//           </li>
-//         ))}
-//       </ul>
-//     </>
-//   );
-// }
-
-// export default EventsPage;
-
-import { useLoaderData, json } from "react-router-dom";
+import { Suspense } from "react";
+import { useLoaderData, json, defer, Await } from "react-router-dom";
 
 import EventsList from "../components/EventsList";
 
 function EventsPage() {
-  const data = useLoaderData();
+  // const data = useLoaderData();
+  const { events } = useLoaderData();
 
-  // if (data.isError) {
-  //   return <p>{data.message}</p>;
-  // }
-  const events = data.events;
+  // // if (data.isError) {
+  // //   return <p>{data.message}</p>;
+  // // }
+  // const events = data.events;
 
-  return <EventsList events={events} />;
+  // return <EventsList events={events} />;
+  return (
+    <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+      <Await resolve={events}>
+        {(loadedEvents) => <EventsList events={loadedEvents} />}
+      </Await>
+    </Suspense>
+  );
 }
 
 export default EventsPage;
 
-export async function loader() {
+async function loadEvents() {
   const response = await fetch("http://localhost:8080/events");
 
   if (!response.ok) {
@@ -60,8 +39,15 @@ export async function loader() {
       }
     );
   } else {
-    return response;
+    const resData = await response.json();
+    return resData.events;
   }
+}
+
+export async function loader() {
+  return defer({
+    events: loadEvents(),
+  });
 }
 
 // 283 ROUTING PRACTICE
@@ -180,3 +166,31 @@ export async function loader() {
 // 1.2 To this json fucntion, you simply pass your data that should be included in the response, and you don't need convert it to "JSON" manually. And pass the second argument where you can set extra response metadata like this "status" - set this "status" like 500.
 // Now with  "json({})" you don't just have to type less code here, but in the place where you use that response data you also don't have to parse the "json" format manually.
 // 294. THE JSON() UTILITY FUNCTION
+
+//
+
+// 304. DEFERRING DATA FETCHER WITH DEFER()
+// Here we are loading all events
+// STEP 1:
+// 1.1 In order to defer loading e grab code ("loader") and outsorse it into a separate function, an async function "loadEvents".
+// I'm doing this because in the loader I now don't want to await this (from fetching) promise.
+// 1.2 Instead I can get rid async keyword in "loader()" function. and use special function in this "loader" function. The "defer" function which should be imported from r-r-d.
+// 1.3 "defer()" - is a function must be executed and to "defer" we pass an object. In this object, we bundle all the different HTTP requests we might have going on on this page. (in this case only one request, the request of all my events).
+// 1.4 I'll give that request a key of "events" (name is up to you) and point at load events and execute it /// "defer({events: loadEvents(),});"
+// 1.5 So I execute he "loadevents()" and I stored a value returned by load events, which is a promise, since this is a async function in this object under the events key. Now me must have a promise here ("defer({events: loadEvents(),})").
+// If we wouldn't have a promise there would be nothing to defer because the idea behind defer is that we have a value that will eventually resolve to another value, which is the definition of a promise.
+// And we wanna load and render a component even though that future value isn't there yet. So "loadevents" returns a promise. It must be return a promise and it does. And we store sthat promise under the events key in this object ("defer({events: loadEvents(),})"), which we pass to defer. And it's now this value returned by defer, which we return in our loader. "return defer({"
+// For next step we have to go to the component where we want to use ("EventsPage") the deffered data and we still use "useLoaderData" here, but this "data" will now actually be an object that gives us accesss to these deffered value keys (to "events" in my case "events: loadeEvents")
+// And in this component we now don't directly render the component or JSX code that needs our data.
+// 1.6 Instead of that we return another component provided by r-r-d and that's the await component - "Await" component, lets' import it.
+// 1.7 We render <"Await>" with special "resolve" prop, which wants one of our deffered values as a value.
+// "data" will have the keys we set in "defer" function because we use "useLoaderData". And that events key will hold a promise as a value.
+// So it's kind of that promise which we wanna pass to this "resolve" value of the swait component. /// "return <Await resolve={}></Await>"
+// 1.8 So I can use object destructuring on "data" to get my events key and pass this to "resolve" prop. /// "const { events } = useLoaderData();"
+// That "<Await>" component will wait for that "data (in my case {events})" to be there.
+// And inside of "<Await></Await>" I output a dynamic value, which must be a function that will be executed by a r-r-d once that data is there, so once that promise resolved.
+// In this dynamic value we get our events our "loadedEvents". "{(loadEvents)=>}" - this functions will be called by r-r-d once the data is there. And  where we wanna output our "<EventsList>" and pass these "loadedEvents" as a value for the "events" prop. /// "{(loadedEvents) => <EventsList events={loadedEvents} />}"
+// 1.9 Last step is add component that must be wrapped around the await component. That is <Suspense> component which is imported from React.
+// The <Suspense> component which can be used in certain situations to show a fallback whilst we're waiting other data to arive.
+// 1.10 Add prop "fallback" /// "<Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>"
+// 304. DEFERRING DATA  FETCHER WITH DEFER()
