@@ -1,4 +1,4 @@
-# 12-Router
+# 12-Router-Events
 
 In this educational project, I studied how an generally congigure routes and make sure that different components are loaded for different paths.
 Learned how I can handle errors and how I can set up layouts that wrap itself around multiple routes.
