@@ -6,7 +6,6 @@ const {
   isValidDate,
   isValidImageUrl,
 } = require("../util/validation");
-
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
